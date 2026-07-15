@@ -72,7 +72,7 @@ jobs:
         run: |
           mkdir -p stage
           cp -L mesa-build/src/virtio/vulkan/libvulkan_virtio.so stage/
-          cp -L mesa-build/src/gbm/libgbm.so stage/
+          find mesa-build -name "*gbm*" -exec cp -L {} stage/ \; || true
       - uses: actions/upload-artifact@v4
         with:
           name: guest-vulkan-virtio
