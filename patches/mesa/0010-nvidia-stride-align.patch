@@ -1,0 +1,5 @@
+--- a/src/vulkan/wsi/wsi_common_drm.c
++++ b/src/vulkan/wsi/wsi_common_drm.c
+@@ -37,3 +37,3 @@
+-#define WSI_PRIME_LINEAR_STRIDE_ALIGN 256
++#define WSI_PRIME_LINEAR_STRIDE_ALIGN 32
