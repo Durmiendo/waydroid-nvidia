@@ -205,6 +205,8 @@ vtest_dev_destroy(struct gbm_device *gbm)
 static int
 vtest_alloc(struct alloc_args *args)
 {
+   args->width = (args->width + 63) & ~63;
+   
    struct vtest_dev *dev = (struct vtest_dev *)args->gbm;
 
    uint32_t flags = 0;
