@@ -64,6 +64,7 @@ jobs:
           git -C mesa-src am "$GITHUB_WORKSPACE"/patches/mesa/0001-*.patch "$GITHUB_WORKSPACE"/patches/mesa/0002-*.patch
           git -C mesa-src apply "$GITHUB_WORKSPACE"/patches/mesa/0003-*.patch
           
+
           python3 -c "
           import os, sys
           found = False
@@ -75,12 +76,12 @@ jobs:
                           with open(path, 'r', encoding='utf-8', errors='ignore') as f:
                               lines = f.readlines()
                           for i, line in enumerate(lines):
-                              if 'U_GRALLOC_TYPE_CROS' in line:
-                           
-                                  if 'u_gralloc.h' in path:
+                              if 'imapper' in line.lower():
+                                  # Пропускаем сам файл u_gralloc.c, его мы уже видели
+                                  if 'u_gralloc.c' in path:
                                       continue
                                   print(f'=== FOUND MATCH IN {path} at line {i+1} ===')
-                                  # Выводим 15 строк до и 15 строк после совпадения
+                  
                                   start = max(0, i - 15)
                                   end = min(len(lines), i + 15)
                                   for idx in range(start, end):
@@ -91,7 +92,7 @@ jobs:
                       except Exception as e:
                           pass
           if not found:
-              print('FATAL ERROR: string \"U_GRALLOC_TYPE_CROS\" not found anywhere in mesa-src!')
+              print('FATAL ERROR: string \"imapper\" not found anywhere in mesa-src!')
               sys.exit(1)
           else:
               print('SUCCESS SUCCESSFULLY FOUND! Failing build intentionally to let you read logs.')
