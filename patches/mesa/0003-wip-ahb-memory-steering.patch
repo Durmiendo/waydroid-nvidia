@@ -1943,3 +1943,16 @@ index fd9ee5d..f773a51 100644
        return vk_errorf(
           pdevice, VK_ERROR_FORMAT_NOT_SUPPORTED,
           "format (%u) flags (0x%x) usage (0x%x) unsupported for AHB",
+
+
+diff --git a/src/virtio/vulkan/vn_android.c b/src/virtio/vulkan/vn_android.c
+--- a/src/virtio/vulkan/vn_android.c
++++ b/src/virtio/vulkan/vn_android.c
+@@ -300,9 +300,3 @@ vn_android_gralloc_init(struct vn_device *dev)
+-   if (dev->gralloc->type != U_GRALLOC_TYPE_CROS &&
+-       dev->gralloc->type != U_GRALLOC_TYPE_IMAPPER) {
+-      vn_log(dev->instance, "only CrOS and IMapper v4 grallocs are supported");
+-      u_gralloc_destroy(&dev->gralloc);
+-      return VK_ERROR_OUT_OF_DATE_KHR;
+-   }
++   // Bypassed for NVIDIA compatibility
