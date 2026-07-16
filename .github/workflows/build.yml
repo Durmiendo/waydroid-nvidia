@@ -64,18 +64,11 @@ jobs:
           git -C mesa-src am "$GITHUB_WORKSPACE"/patches/mesa/0001-*.patch "$GITHUB_WORKSPACE"/patches/mesa/0002-*.patch
           git -C mesa-src apply "$GITHUB_WORKSPACE"/patches/mesa/0003-*.patch
           
+          sed -i 's/WSI_PRIME_LINEAR_STRIDE_ALIGN 256/WSI_PRIME_LINEAR_STRIDE_ALIGN 32/g' mesa-src/src/vulkan/wsi/wsi_common_drm.c || true
+          sed -i 's/WSI_PRIME_LINEAR_STRIDE_ALIGN 256/WSI_PRIME_LINEAR_STRIDE_ALIGN 32/g' mesa-src/src/vulkan/wsi/wsi_common.c || true
+          
           python3 -c "
           import sys
-
-          with open('mesa-src/src/vulkan/wsi/wsi_common_drm.c', 'r') as f:
-              drm_code = f.read()
-          if 'WSI_PRIME_LINEAR_STRIDE_ALIGN 256' not in drm_code:
-              print('FATAL ERROR: WSI_PRIME_LINEAR_STRIDE_ALIGN 256 not found in wsi_common_drm.c!')
-              sys.exit(1)
-          drm_code = drm_code.replace('WSI_PRIME_LINEAR_STRIDE_ALIGN 256', 'WSI_PRIME_LINEAR_STRIDE_ALIGN 32')
-          with open('mesa-src/src/vulkan/wsi/wsi_common_drm.c', 'w') as f:
-              f.write(drm_code)
-
           with open('mesa-src/src/virtio/vulkan/vn_android.c', 'r') as f:
               lines = f.readlines()
           found = False
@@ -91,7 +84,6 @@ jobs:
               sys.exit(1)
           with open('mesa-src/src/virtio/vulkan/vn_android.c', 'w') as f:
               f.writelines(lines)
-
           print('SUCCESS: All files successfully patched!')
           "
       - name: Build libvulkan_virtio.so
