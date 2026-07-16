@@ -205,8 +205,26 @@ vtest_dev_destroy(struct gbm_device *gbm)
 static int
 vtest_alloc(struct alloc_args *args)
 {
-   args->width = (args->width + 63) & ~63;
+   uint32_t bpp = 4;
+   switch (args->drm_format) {
+   case FMT_R8:
+      bpp = 1;
+      break;
+   case FMT_RGB565:
+      bpp = 2;
+      break;
+   case FMT_ABGR16161616F:
+      bpp = 8;
+      break;
+   default:
+      bpp = 4;
+      break;
+   }
+
+   uint32_t aligned_stride = (args->width * bpp + 255) & ~255;
    
+   args->width = aligned_stride / bpp;
+
    struct vtest_dev *dev = (struct vtest_dev *)args->gbm;
 
    uint32_t flags = 0;
