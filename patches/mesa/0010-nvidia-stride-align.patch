@@ -1,18 +1,18 @@
 diff --git a/src/vulkan/wsi/wsi_common_drm.c b/src/vulkan/wsi/wsi_common_drm.c
 --- a/src/vulkan/wsi/wsi_common_drm.c
 +++ b/src/vulkan/wsi/wsi_common_drm.c
-@@ -34,5 +34,5 @@
- #include <unistd.h>
+@@ -37,5 +37,5 @@
+ #include <xf86drm.h>
  
 -#define WSI_PRIME_LINEAR_STRIDE_ALIGN 256
 +#define WSI_PRIME_LINEAR_STRIDE_ALIGN 32
  
- struct wsi_drm_image_params {
+ bool
 
 diff --git a/src/virtio/vulkan/vn_android.c b/src/virtio/vulkan/vn_android.c
 --- a/src/virtio/vulkan/vn_android.c
 +++ b/src/virtio/vulkan/vn_android.c
-@@ -300,11 +300,4 @@ vn_android_gralloc_init(struct vn_device *dev)
+@@ -170,11 +170,4 @@
     dev->gralloc = gralloc;
  
 -   if (dev->gralloc->type != U_GRALLOC_TYPE_CROS &&
