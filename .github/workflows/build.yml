@@ -75,10 +75,13 @@ jobs:
                           with open(path, 'r', encoding='utf-8', errors='ignore') as f:
                               lines = f.readlines()
                           for i, line in enumerate(lines):
-                              if 'only CrOS' in line:
+                              if 'U_GRALLOC_TYPE_CROS' in line:
+                           
+                                  if 'u_gralloc.h' in path:
+                                      continue
                                   print(f'=== FOUND MATCH IN {path} at line {i+1} ===')
-                                  
-                                  start = max(0, i - 10)
+                                  # Выводим 15 строк до и 15 строк после совпадения
+                                  start = max(0, i - 15)
                                   end = min(len(lines), i + 15)
                                   for idx in range(start, end):
                                       prefix = '>>>' if idx == i else '   '
@@ -88,7 +91,7 @@ jobs:
                       except Exception as e:
                           pass
           if not found:
-              print('FATAL ERROR: string \"only CrOS\" not found anywhere in mesa-src!')
+              print('FATAL ERROR: string \"U_GRALLOC_TYPE_CROS\" not found anywhere in mesa-src!')
               sys.exit(1)
           else:
               print('SUCCESS SUCCESSFULLY FOUND! Failing build intentionally to let you read logs.')
